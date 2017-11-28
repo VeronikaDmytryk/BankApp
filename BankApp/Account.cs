@@ -6,16 +6,34 @@ using System.Threading.Tasks;
 
 namespace BankApp
 {
+    //Own data type, choice list
+    enum TypeOfAccount
+    {
+        Checking,
+        Savings,
+        CD,
+        Loan
+    }
+
     /// <summary>
     /// This is about a bank account  
     /// </summary>
     class Account
     {
+        #region static
+        public static int lastAccountNumber = 0;
+        #endregion
+        #region Constructor
+        public Account()
+        {
+            AccountNumber = ++lastAccountNumber;
+        }
+        #endregion
         #region Properties
         public int AccountNumber { get; private set; }
         public string EmailAddress { get; set; }
         public string AccountName { get; set; }
-        public string AccountType { get; set; }
+        public TypeOfAccount AccountType { get; set; } 
         public decimal Balance { get; private set; }
         #endregion
 
