@@ -21,7 +21,7 @@ namespace BankApp
     class Account
     {
         #region static
-        public static int lastAccountNumber = 0;
+        private static int lastAccountNumber = 0;
         #endregion
         #region Constructor
         public Account()
