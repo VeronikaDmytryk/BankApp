@@ -10,24 +10,38 @@ namespace BankApp
     {
         static void Main(string[] args)
         {
-            // reference, object, instance of a class, Object inizialization
-            var account = new Account
-            {
-                AccountName = "My checking",
-                EmailAddress = "test@test.com",
-                AccountType = TypeOfAccount.Checking,
-            };
-            account.Deposit(100.10M);
-            Console.WriteLine($"Account Number: {account.AccountNumber}, Account Type: {account.AccountType}, Email Address: {account.EmailAddress}, Account Balance: {account.Balance}");
+            Console.WriteLine("************************");
+            Console.WriteLine("Welcome to my Bank");
+            Console.WriteLine("************************");
+            Console.WriteLine("0.Exit");
+            Console.WriteLine("1.Create an account");
+            Console.WriteLine("2.Deposit");
+            Console.WriteLine("3.Withdraw");
+            Console.WriteLine("4.Print all accounts");
 
+            Console.Write("Please choose one opition fromm above:");
+            var choice = Console.ReadLine();
 
-            var account2 = new Account {
-                AccountName = "My savings",
-                EmailAddress = "test@test.com",
-                AccountType = TypeOfAccount.Savings,
-            };
-            account2.Deposit(200.10M);
-            Console.WriteLine($"Account Number: {account2.AccountNumber}, Account Type: {account2.AccountType}, Email Address: {account2.EmailAddress}, Account Balance: {account2.Balance}");
-         }
+            switch (choice) {
+                case "0":
+                    Console.WriteLine("Thank you for visiting");
+                    return;
+                case "1":
+                    Console.Write("Email Address: ");
+                    var emailAddress = Console.ReadLine();
+                    Console.Write("Account Type: ");
+                    var accountName = Console.ReadLine();
+                    var typeOfAccounts = Enum.GetNames(typeof(TypeOfAccount));
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
+                case "4":
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
