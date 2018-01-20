@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 namespace BankApp
 {
     //Own data type, choice list
-    enum TypeOfAccount
+    public enum TypeOfAccount
     {
         Checking,
         Savings,
@@ -18,19 +19,16 @@ namespace BankApp
     /// <summary>
     /// This is about a bank account  
     /// </summary>
-    class Account
+    public class Account
     {
-        #region static
-        private static int lastAccountNumber = 0;
-        #endregion
         #region Constructor
-        public Account()
-        {
-            AccountNumber = ++lastAccountNumber;
-        }
+        public Account(){}
         #endregion
+
         #region Properties
+        [Key]
         public int AccountNumber { get; private set; }
+        [StringLength(100, ErrorMessage ="Email address should be of 50 characters in length")]
         public string EmailAddress { get; set; }
         public string AccountName { get; set; }
         public TypeOfAccount AccountType { get; set; } 
