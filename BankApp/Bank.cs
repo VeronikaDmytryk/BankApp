@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BankApp
 {
-    static class Bank
+    public static class Bank
     {
         private static BankModel db = new BankModel();
 
@@ -29,6 +29,22 @@ namespace BankApp
         public static List<Account> GetAllAccounts(string emailAddress)
         {
             return db.Accounts.Where(a=>a.EmailAddress == emailAddress).ToList();
+        }
+
+        public static Account EditAccount(Account account)
+        {
+            if (account == null) {
+                throw new ArgumentNullException("account", "Invalid Account");
+            }
+            var oldAccount = db.Accounts.Find(account.AccountNumber);
+            if (oldAccount == null) {
+                throw new ArgumentOutOfRangeException("account", "Invalid account number!");
+            }
+
+            db.Entry(oldAccount).CurrentValues.SetValues(account);
+            db.SaveChanges();
+
+            return account;
         }
 
         public static List<Transaction> GetAllTransactions(int acountNumber) {

@@ -15,9 +15,11 @@ namespace BankUI.Controllers
         private BankModel db = new BankModel();
 
         // GET: Accounts
+        [Authorize]
         public ActionResult Index()
         {
-            return View(db.Accounts.ToList());
+            var accounts = Bank.GetAllAccounts(HttpContext.User.Identity.Name);
+            return View(accounts);
         }
 
         // GET: Accounts/Details/5
@@ -50,8 +52,7 @@ namespace BankUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Accounts.Add(account);
-                db.SaveChanges();
+                Bank.CreateAccount(account.EmailAddress, account.AccountName, account.AccountType);
                 return RedirectToAction("Index");
             }
 
