@@ -33,18 +33,30 @@ namespace BankApp
 
         public static Account EditAccount(Account account)
         {
-            if (account == null) {
+            if (account == null)
+            {
                 throw new ArgumentNullException("account", "Invalid Account");
             }
-            var oldAccount = db.Accounts.Find(account.AccountNumber);
-            if (oldAccount == null) {
-                throw new ArgumentOutOfRangeException("account", "Invalid account number!");
-            }
+            Account oldAccount = FindAccount(account.AccountNumber);
 
-            db.Entry(oldAccount).CurrentValues.SetValues(account);
+            oldAccount.EmailAddress = account.EmailAddress;
+            oldAccount.AccountName = account.AccountName;
+            oldAccount.AccountType = account.AccountType;
+
             db.SaveChanges();
 
             return account;
+        }
+
+        public static Account FindAccount(int accountNumber)
+        {
+            var oldAccount = db.Accounts.Find(accountNumber);
+            if (oldAccount == null)
+            {
+                throw new ArgumentOutOfRangeException("account", "Invalid account number!");
+            }
+
+            return oldAccount;
         }
 
         public static List<Transaction> GetAllTransactions(int acountNumber) {
