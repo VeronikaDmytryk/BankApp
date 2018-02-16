@@ -51,6 +51,10 @@ namespace BankApp
         /// <param name="amount">Amount to be withdrawed</param>
         public void Withdraw(decimal amount)
         {
+            if (amount > Balance)
+            {
+                throw new ArgumentOutOfRangeException("amount", "Amount cannot exceed the balance!");
+            }
             Balance -= amount;
         }
         #endregion

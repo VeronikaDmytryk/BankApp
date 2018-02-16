@@ -73,6 +73,58 @@ namespace BankUI.Controllers
             }
             return View(account);
         }
+        // POST: Accounts/Deposit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Deposit(FormCollection controls)
+        {
+            var accountNumber = Convert.ToInt32(controls["AccountNumber"]);
+            var amount = Convert.ToDecimal(controls["Amount"]);
+            Bank.Deposit(accountNumber, amount);
+            return RedirectToAction("Index");
+        }
+
+        // GET: Accounts/Withdraw/5
+        public ActionResult Withdraw(int? id)
+        {
+            Session["Error"] = "";
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Account account = Bank.FindAccount(id.Value);
+            if (account == null)
+            {
+                return HttpNotFound();
+            }
+            return View(account);
+        }
+
+        // POST: Accounts/Withdraw/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Withdraw(FormCollection controls)
+        {
+        
+            var accountNumber = Convert.ToInt32(controls["AccountNumber"]);
+            var amount = Convert.ToDecimal(controls["Amount"]);
+            try
+            {
+                Bank.Withdraw(accountNumber, amount);
+            }
+            catch (ArgumentOutOfRangeException ax)
+            {
+                Session["Error"] = ax.Message;
+                Account account = Bank.FindAccount(accountNumber);
+                if (account == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(account);
+            }
+
+            return RedirectToAction("Index");
+        }
 
         // GET: Accounts/Edit/5
         public ActionResult Edit(int? id)
@@ -104,7 +156,21 @@ namespace BankUI.Controllers
             return View(account);
         }
 
+        // GET 
+        public ActionResult Transactions(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var transactions = Bank.GetAllTransactions(id.Value);
+            if (transactions == null)
+            {
+                return HttpNotFound();
+            }
+            return View(transactions);
 
+        }
 
         protected override void Dispose(bool disposing)
         {
